@@ -10,10 +10,10 @@ import Foundation
 
 class GameService {
     
-    var params: [String: Any] = ["key": "483c6e1ea2c54fe9a2bb634af0a4b85b"]
+    var params: [String: Any] = ["key": "rawgkey"]
     
     let headers: HTTPHeaders = [
-        "x-rapidapi-key": "7106e149e6msh41d6e45934fe98dp1a822fjsn33c2ef7a2c4e",
+        "x-rapidapi-key": "rapidapi-key",
         "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com"
     ]
     
