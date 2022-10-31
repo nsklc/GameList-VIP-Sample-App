@@ -9,6 +9,7 @@ import UIKit
 
 protocol GameListBusinessLogic {
     func fetchGames()
+    func getNewPageForGames()
 }
 
 protocol GamesListDataDelegate {
@@ -17,10 +18,10 @@ protocol GamesListDataDelegate {
 }
 
 class GameListInteractor: GameListBusinessLogic, GamesListDataDelegate {
-        
     var presenter: GameListPresenter?
     var worker = GameListWorker()
     var games: GameListModel?
+    var pageNumber = 1
     
     init() {
         worker.gamesListWorkerDelegate = self
@@ -32,7 +33,6 @@ class GameListInteractor: GameListBusinessLogic, GamesListDataDelegate {
     
     func didStartGettingListOfGames() {
         print("didStartGettingListOfGames")
-        
     }
     
     func didFinishGettingListOfGames(games: GameListModel) {
@@ -41,5 +41,10 @@ class GameListInteractor: GameListBusinessLogic, GamesListDataDelegate {
         presenter?.presentFetchedGames(gameDetails: games)
     }
     
+    func getNewPageForGames() {
+        print("getNewPageForGames")
+        pageNumber += 1
+        worker.getGames(pageNumber: pageNumber)
+    }
 }
 

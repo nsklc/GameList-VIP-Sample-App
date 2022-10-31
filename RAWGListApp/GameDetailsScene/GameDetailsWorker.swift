@@ -10,11 +10,15 @@ class GameDetailsWorker {
     
     func getGames(gameID: Int) {
         gamesDetailsWorkerDelegate?.didStartGettingDetailsOfGames()
-       
-        GameService().getGameDetails(gameID: gameID) { gameDetails in
-            if let gameDetails = gameDetails {
-                self.gamesDetailsWorkerDelegate?.didFinishGettingDetailsOfGames(gameDetails: gameDetails)
+        
+        GameService.shared.getGameDetails(gameID: gameID) { [weak self] result in
+            switch result {
+            case .success(let gameDetails):
+                self?.gamesDetailsWorkerDelegate?.didFinishGettingDetailsOfGames(gameDetails: gameDetails)
+            case .failure(let error):
+                print(error)
             }
         }
+        
     }
 }

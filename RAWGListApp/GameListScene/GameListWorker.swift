@@ -10,14 +10,14 @@ import UIKit
 class GameListWorker {
     var gamesListWorkerDelegate: GamesListDataDelegate?
     
-    func getGames() {
+    func getGames(pageNumber: Int = 1) {
         gamesListWorkerDelegate?.didStartGettingListOfGames()
-        GameService().getListOfGames { gameList in
-            if let gameList = gameList {
-
-                self.gamesListWorkerDelegate?.didFinishGettingListOfGames(games: gameList)
-            } else {
-                //?
+        GameService.shared.getListOfGames(pageNumber: pageNumber) { [weak self] result in
+            switch result {
+            case .success(let gameList):
+                self?.gamesListWorkerDelegate?.didFinishGettingListOfGames(games: gameList)
+            case .failure(let error):
+                print(error)
             }
         }
     }

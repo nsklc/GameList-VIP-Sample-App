@@ -48,7 +48,6 @@ class GameListViewController: UIViewController, GameListDisplayLogic {
         interactor.presenter = presenter
         presenter.viewController = viewController
         router.viewController = viewController
-//        router.dataStore = interactor
         interactor.fetchGames()
     }
     
@@ -59,12 +58,15 @@ class GameListViewController: UIViewController, GameListDisplayLogic {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
-            
         ])
     }
     
     func displayFetchedGamesTitles(games: GameListModel) {
-        self.games = games
+        if self.games != nil {
+            self.games?.results += games.results
+        } else {
+            self.games = games
+        }
         tableView.reloadData()
     }
     
@@ -94,5 +96,10 @@ extension GameListViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let games = games, indexPath.row + 1 == games.results.count {
+            interactor?.getNewPageForGames()
+        }
+    }
 }
 
